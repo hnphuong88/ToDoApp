@@ -1,0 +1,123 @@
+.detail-page {
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-2xl);
+}
+
+.detail-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.detail-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.detail-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.detail-title {
+  font-size: 1.5rem;
+  word-break: break-word;
+}
+
+.completed-title {
+  text-decoration: line-through;
+  color: var(--color-completed);
+}
+
+.detail-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+  white-space: pre-wrap;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.detail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.meta-label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.meta-value {
+  color: var(--color-text);
+}
+
+.detail-status-selector {
+  display: flex;
+  gap: 4px;
+}
+
+.detail-status-btn {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.detail-status-btn:hover {
+  background: var(--color-border-light);
+}
+
+.detail-status-btn.active.detail-status-todo {
+  background: var(--color-status-todo-bg);
+  border-color: var(--color-status-todo);
+  color: var(--color-status-todo);
+}
+
+.detail-status-btn.active.detail-status-inprogress {
+  background: var(--color-status-inprogress-bg);
+  border-color: var(--color-status-inprogress);
+  color: var(--color-status-inprogress);
+}
+
+.detail-status-btn.active.detail-status-complete {
+  background: var(--color-status-complete-bg);
+  border-color: var(--color-status-complete);
+  color: var(--color-status-complete);
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}

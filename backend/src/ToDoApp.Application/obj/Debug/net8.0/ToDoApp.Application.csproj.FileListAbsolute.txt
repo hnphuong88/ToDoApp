@@ -1,0 +1,15 @@
+D:\ToDoApp\backend\src\ToDoApp.Application\bin\Debug\net8.0\ToDoApp.Application.deps.json
+D:\ToDoApp\backend\src\ToDoApp.Application\bin\Debug\net8.0\ToDoApp.Application.dll
+D:\ToDoApp\backend\src\ToDoApp.Application\bin\Debug\net8.0\ToDoApp.Application.pdb
+D:\ToDoApp\backend\src\ToDoApp.Application\bin\Debug\net8.0\ToDoApp.Domain.dll
+D:\ToDoApp\backend\src\ToDoApp.Application\bin\Debug\net8.0\ToDoApp.Domain.pdb
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.csproj.AssemblyReference.cache
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.AssemblyInfoInputs.cache
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.AssemblyInfo.cs
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.csproj.CoreCompileInputs.cache
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp..8F0EDDB9.Up2Date
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.dll
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\refint\ToDoApp.Application.dll
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ToDoApp.Application.pdb
+D:\ToDoApp\backend\src\ToDoApp.Application\obj\Debug\net8.0\ref\ToDoApp.Application.dll

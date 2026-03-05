@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\ToDoApp\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3F09D215-2B31-41CE-A25F-CCE9E3B430D7}|src\\ToDoApp.Api\\ToDoApp.Api.csproj|d:\\todoapp\\backend\\src\\todoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F09D215-2B31-41CE-A25F-CCE9E3B430D7}|src\\ToDoApp.Api\\ToDoApp.Api.csproj|solutionrelative:src\\todoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9307CE57-6D88-40D6-8C79-A2C3D66F3DCB}|src\\ToDoApp.Infrastructure\\ToDoApp.Infrastructure.csproj|d:\\todoapp\\backend\\src\\todoapp.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9307CE57-6D88-40D6-8C79-A2C3D66F3DCB}|src\\ToDoApp.Infrastructure\\ToDoApp.Infrastructure.csproj|solutionrelative:src\\todoapp.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\ToDoApp\\backend\\src\\ToDoApp.Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "src\\ToDoApp.Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "D:\\ToDoApp\\backend\\src\\ToDoApp.Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "src\\ToDoApp.Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAASwAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T01:18:20.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\ToDoApp\\backend\\src\\ToDoApp.Api\\Program.cs",
+              "RelativeDocumentMoniker": "src\\ToDoApp.Api\\Program.cs",
+              "ToolTip": "D:\\ToDoApp\\backend\\src\\ToDoApp.Api\\Program.cs",
+              "RelativeToolTip": "src\\ToDoApp.Api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T01:17:57.163Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

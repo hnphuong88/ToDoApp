@@ -1,0 +1,44 @@
+.landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+}
+
+.landing-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+}
+
+.landing-title {
+  font-size: 2.4rem;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.landing-tagline {
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  margin-bottom: var(--spacing-xl);
+  font-style: italic;
+}
+
+.landing-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  text-align: left;
+}
+
+.landing-btn {
+  margin-top: var(--spacing-sm);
+  width: 100%;
+  padding: 12px;
+  font-size: 1.05rem;
+}

@@ -1,0 +1,99 @@
+.todo-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.todo-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.todo-card.completed {
+  opacity: 0.65;
+}
+
+.todo-card.completed .todo-card-title {
+  text-decoration: line-through;
+  color: var(--color-completed);
+}
+
+.status-dot {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  padding: 0;
+  color: #fff;
+}
+
+.status-dot:hover {
+  transform: scale(1.1);
+}
+
+.status-dot-todo {
+  border-color: var(--color-status-todo);
+}
+
+.status-dot-inprogress {
+  border-color: var(--color-status-inprogress);
+  background: var(--color-status-inprogress);
+}
+
+.status-dot-complete {
+  border-color: var(--color-status-complete);
+  background: var(--color-status-complete);
+}
+
+.todo-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.todo-card-top-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.todo-card-title {
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-card-bottom-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.todo-card-date {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+}
+
+.todo-card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
