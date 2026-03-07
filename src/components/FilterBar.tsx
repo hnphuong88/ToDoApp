@@ -39,37 +39,35 @@ export default function FilterBar({
 
   return (
     <div className="filter-bar">
-      <div className="filter-row">
-        <div className="filter-buttons">
-          <button
-            className={`filter-btn ${mode === "today" ? "active" : ""}`}
-            onClick={() => handleModeClick("today")}
-          >
-            Today
-          </button>
-          <button
-            className={`filter-btn ${mode === "week" ? "active" : ""}`}
-            onClick={() => handleModeClick("week")}
-          >
-            This Week
-          </button>
-          <button
-            className={`filter-btn ${mode === "specific" ? "active" : ""}`}
-            onClick={() => handleModeClick("specific")}
-          >
-            Pick a Day
-          </button>
-        </div>
-        {showDatePicker && (
-          <div className="filter-date-picker">
-            <input
-              type="date"
-              value={specificDate}
-              onChange={(e) => onDateChange(e.target.value)}
-            />
-          </div>
-        )}
+      <div className="filter-buttons">
+        <button
+          className={`filter-btn ${mode === "today" ? "active" : ""}`}
+          onClick={() => handleModeClick("today")}
+        >
+          Today
+        </button>
+        <button
+          className={`filter-btn ${mode === "week" ? "active" : ""}`}
+          onClick={() => handleModeClick("week")}
+        >
+          This Week
+        </button>
+        <button
+          className={`filter-btn ${mode === "specific" ? "active" : ""}`}
+          onClick={() => handleModeClick("specific")}
+        >
+          Pick a Day
+        </button>
       </div>
+      {showDatePicker && (
+        <div className="filter-date-picker">
+          <input
+            type="date"
+            value={specificDate}
+            onChange={(e) => onDateChange(e.target.value)}
+          />
+        </div>
+      )}
 
       <div className="filter-search-row">
         <div className="search-input-wrapper">
