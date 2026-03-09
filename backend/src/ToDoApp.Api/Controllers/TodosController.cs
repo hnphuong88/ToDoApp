@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Application.DTOs;
 using ToDoApp.Application.Interfaces;
@@ -6,19 +7,23 @@ namespace ToDoApp.Api.Controllers;
 
 [ApiController]
 [Route("api/todos")]
-public class TodosController : ControllerBase
+[Authorize]
+public class TodosController : AuthBaseController
 {
     private readonly ITodoService _todoService;
+    private readonly IUserRepository _userRepo;
 
-    public TodosController(ITodoService todoService)
+    public TodosController(ITodoService todoService, IUserRepository userRepo)
     {
         _todoService = todoService;
+        _userRepo = userRepo;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoItemDto>>> GetAll()
     {
-        var items = await _todoService.GetAllAsync();
+        var user = await GetOrCreateAppUser(_userRepo);
+        var items = await _todoService.GetAllForUserAsync(user.Id);
         return Ok(items);
     }
 
@@ -33,7 +38,8 @@ public class TodosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TodoItemDto>> Create([FromBody] CreateTodoRequest request)
     {
-        var created = await _todoService.CreateAsync(request);
+        var user = await GetOrCreateAppUser(_userRepo);
+        var created = await _todoService.CreateAsync(request, user.Id);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 

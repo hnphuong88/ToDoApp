@@ -25,15 +25,14 @@
 .landing-tagline {
   color: var(--color-text-secondary);
   font-size: 1.05rem;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
   font-style: italic;
 }
 
-.landing-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  text-align: left;
+.landing-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-xl);
 }
 
 .landing-btn {

@@ -120,6 +120,18 @@ export default function TodoDetailPage() {
                 ))}
               </div>
             </div>
+            {todo.owner && (
+              <div className="meta-row">
+                <span className="meta-label">Owner</span>
+                <span className="meta-value">{todo.owner.displayName}</span>
+              </div>
+            )}
+            {todo.assignedTo && (
+              <div className="meta-row">
+                <span className="meta-label">Assigned To</span>
+                <span className="meta-value">{todo.assignedTo.displayName}</span>
+              </div>
+            )}
             <div className="meta-row">
               <span className="meta-label">Created</span>
               <span className="meta-value">{formatTimestamp(todo.createdAt)}</span>

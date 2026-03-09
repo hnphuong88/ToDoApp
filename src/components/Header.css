@@ -20,6 +20,15 @@
   line-height: 1;
 }
 
+.header-title-link {
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.header-title-link:hover {
+  color: var(--color-primary);
+}
+
 .greeting-text {
   font-size: 0.88rem;
   color: var(--color-text-secondary);
@@ -34,6 +43,11 @@
 }
 
 .header-logout {
+  padding: 6px 16px;
+  font-size: 0.88rem;
+}
+
+.header-nav-btn {
   padding: 6px 16px;
   font-size: 0.88rem;
 }

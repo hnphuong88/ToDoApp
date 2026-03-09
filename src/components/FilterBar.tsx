@@ -83,21 +83,27 @@ export default function FilterBar({
             className="search-input"
           />
         </div>
-        {allTags.length > 0 && (
-          <div className="tag-filter">
-            <select
-              value={selectedTag}
-              onChange={(e) => onTagChange(e.target.value)}
-              className="tag-select"
-            >
-              <option value="">All Tags</option>
-              {allTags.map((tag) => (
-                <option key={tag} value={tag}>{tag}</option>
-              ))}
-            </select>
-          </div>
-        )}
       </div>
+
+      {allTags.length > 0 && (
+        <div className="tag-pills-filter">
+          <button
+            className={`tag-pill-btn ${selectedTag === "" ? "active" : ""}`}
+            onClick={() => onTagChange("")}
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              className={`tag-pill-btn ${selectedTag === tag ? "active" : ""}`}
+              onClick={() => onTagChange(selectedTag === tag ? "" : tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -3,43 +3,40 @@ import {
   useContext,
   useReducer,
   useCallback,
+  useEffect,
+  useRef,
   type ReactNode,
 } from "react";
-import type { User, TodoItem, TodoStatus } from "../types";
+import { useIsAuthenticated } from "@azure/msal-react";
+import type { AppUser, TodoItem, TodoStatus, Team } from "../types";
 import { todoApi } from "../services/todoApi";
-
-const STORAGE_KEY_USER = "todo_user";
+import { userApi } from "../services/userApi";
+import { teamApi } from "../services/teamApi";
 
 interface AppState {
-  user: User | null;
+  user: AppUser | null;
   todos: TodoItem[];
+  teams: Team[];
   loading: boolean;
   error: string | null;
 }
 
 type Action =
-  | { type: "SET_USER"; payload: User }
+  | { type: "SET_USER"; payload: AppUser }
   | { type: "CLEAR_USER" }
   | { type: "SET_TODOS"; payload: TodoItem[] }
   | { type: "ADD_TODO"; payload: TodoItem }
   | { type: "UPDATE_TODO"; payload: TodoItem }
   | { type: "DELETE_TODO"; payload: string }
+  | { type: "SET_TEAMS"; payload: Team[] }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_ERROR"; payload: string | null };
 
-function loadUser(): User | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_USER);
-    return raw ? (JSON.parse(raw) as User) : null;
-  } catch {
-    return null;
-  }
-}
-
 function getInitialState(): AppState {
   return {
-    user: loadUser(),
+    user: null,
     todos: [],
+    teams: [],
     loading: false,
     error: null,
   };
@@ -48,12 +45,10 @@ function getInitialState(): AppState {
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "SET_USER":
-      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(action.payload));
       return { ...state, user: action.payload };
 
     case "CLEAR_USER":
-      localStorage.removeItem(STORAGE_KEY_USER);
-      return { ...state, user: null, todos: [] };
+      return { ...state, user: null, todos: [], teams: [] };
 
     case "SET_TODOS":
       return { ...state, todos: action.payload };
@@ -75,6 +70,9 @@ function appReducer(state: AppState, action: Action): AppState {
         todos: state.todos.filter((t) => t.id !== action.payload),
       };
 
+    case "SET_TEAMS":
+      return { ...state, teams: action.payload };
+
     case "SET_LOADING":
       return { ...state, loading: action.payload };
 
@@ -90,6 +88,8 @@ interface TodoContextValue {
   state: AppState;
   dispatch: React.Dispatch<Action>;
   fetchTodos: () => Promise<void>;
+  fetchTeams: () => Promise<void>;
+  fetchCurrentUser: () => Promise<void>;
   createTodo: (data: {
     title: string;
     description: string;
@@ -97,6 +97,7 @@ interface TodoContextValue {
     priority: string;
     status?: string;
     tags?: string[];
+    assignedToUserId?: string | null;
   }) => Promise<TodoItem>;
   updateTodo: (
     id: string,
@@ -107,6 +108,7 @@ interface TodoContextValue {
       priority: string;
       status: string;
       tags: string[];
+      assignedToUserId?: string | null;
     }
   ) => Promise<TodoItem>;
   deleteTodo: (id: string) => Promise<void>;
@@ -117,6 +119,16 @@ const TodoContext = createContext<TodoContextValue | undefined>(undefined);
 
 export function TodoProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, undefined, getInitialState);
+  const isAuthenticated = useIsAuthenticated();
+
+  const fetchCurrentUser = useCallback(async () => {
+    try {
+      const user = await userApi.getMe();
+      dispatch({ type: "SET_USER", payload: user });
+    } catch (err) {
+      console.error("Failed to fetch current user:", err);
+    }
+  }, []);
 
   const fetchTodos = useCallback(async () => {
     dispatch({ type: "SET_LOADING", payload: true });
@@ -134,6 +146,26 @@ export function TodoProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const fetchTeams = useCallback(async () => {
+    try {
+      const teams = await teamApi.getMyTeams();
+      dispatch({ type: "SET_TEAMS", payload: teams });
+    } catch (err) {
+      console.error("Failed to fetch teams:", err);
+    }
+  }, []);
+
+  const didFetch = useRef(false);
+
+  useEffect(() => {
+    if (isAuthenticated && !didFetch.current) {
+      didFetch.current = true;
+      fetchCurrentUser();
+      fetchTodos();
+      fetchTeams();
+    }
+  }, [isAuthenticated, fetchCurrentUser, fetchTodos, fetchTeams]);
+
   const createTodo = useCallback(
     async (data: {
       title: string;
@@ -142,6 +174,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
       priority: string;
       status?: string;
       tags?: string[];
+      assignedToUserId?: string | null;
     }) => {
       const created = await todoApi.create(data);
       dispatch({ type: "ADD_TODO", payload: created });
@@ -160,6 +193,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
         priority: string;
         status: string;
         tags: string[];
+        assignedToUserId?: string | null;
       }
     ) => {
       const updated = await todoApi.update(id, data);
@@ -186,6 +220,8 @@ export function TodoProvider({ children }: { children: ReactNode }) {
         state,
         dispatch,
         fetchTodos,
+        fetchTeams,
+        fetchCurrentUser,
         createTodo,
         updateTodo,
         deleteTodo,

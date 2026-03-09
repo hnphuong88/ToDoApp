@@ -64,6 +64,15 @@ export default function TodoCard({ todo }: TodoCardProps) {
         </div>
         <div className="todo-card-bottom-row">
           <span className="todo-card-date">{formatDate(todo.dueDate)}</span>
+          {todo.assignedTo && (
+            <span className="todo-card-assignee" title={`Assigned to ${todo.assignedTo.displayName}`}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              {todo.assignedTo.displayName}
+            </span>
+          )}
           {todo.tags.length > 0 && (
             <div className="todo-card-tags">
               {todo.tags.map((tag) => (

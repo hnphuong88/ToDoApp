@@ -1,7 +1,7 @@
-import { useState, useEffect, type FormEvent, type KeyboardEvent } from "react";
+import { useState, useEffect, useMemo, type FormEvent, type KeyboardEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../context/TodoContext";
-import type { Priority, TodoStatus } from "../types";
+import type { Priority, TodoStatus, AppUser } from "../types";
 import Header from "../components/Header";
 import "./TodoFormPage.css";
 
@@ -20,8 +20,19 @@ export default function TodoFormPage() {
   const [status, setStatus] = useState<TodoStatus>("todo");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [assignedToUserId, setAssignedToUserId] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ title?: string; dueDate?: string }>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const teamMembers = useMemo(() => {
+    const map = new Map<string, AppUser>();
+    state.teams.forEach((team) => {
+      team.members.forEach((m) => {
+        if (!map.has(m.id)) map.set(m.id, m);
+      });
+    });
+    return [...map.values()].sort((a, b) => a.displayName.localeCompare(b.displayName));
+  }, [state.teams]);
 
   useEffect(() => {
     if (existing) {
@@ -31,6 +42,7 @@ export default function TodoFormPage() {
       setPriority(existing.priority);
       setStatus(existing.status);
       setTags(existing.tags ?? []);
+      setAssignedToUserId(existing.assignedTo?.id ?? null);
     }
   }, [existing]);
 
@@ -63,24 +75,20 @@ export default function TodoFormPage() {
 
     setSubmitting(true);
     try {
+      const payload = {
+        title: title.trim(),
+        description: description.trim(),
+        dueDate,
+        priority,
+        status,
+        tags,
+        assignedToUserId: assignedToUserId || null,
+      };
+
       if (isEdit && existing) {
-        await updateTodo(existing.id, {
-          title: title.trim(),
-          description: description.trim(),
-          dueDate,
-          priority,
-          status,
-          tags,
-        });
+        await updateTodo(existing.id, payload);
       } else {
-        await createTodo({
-          title: title.trim(),
-          description: description.trim(),
-          dueDate,
-          priority,
-          status,
-          tags,
-        });
+        await createTodo(payload);
       }
       navigate("/dashboard");
     } catch {
@@ -210,6 +218,25 @@ export default function TodoFormPage() {
                 />
               </div>
             </div>
+
+            {teamMembers.length > 0 && (
+              <div className="form-group">
+                <label htmlFor="assignee">Assign To</label>
+                <select
+                  id="assignee"
+                  value={assignedToUserId ?? ""}
+                  onChange={(e) => setAssignedToUserId(e.target.value || null)}
+                  className="assignee-select"
+                >
+                  <option value="">Unassigned</option>
+                  {teamMembers.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.displayName} ({m.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="form-actions">
               <button

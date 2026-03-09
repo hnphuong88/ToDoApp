@@ -21,6 +21,16 @@ public static class TodoMappingExtensions
         _ => TodoStatus.Todo
     };
 
+    public static AppUserDto ToDto(this AppUser user)
+    {
+        return new AppUserDto
+        {
+            Id = user.Id,
+            DisplayName = user.DisplayName,
+            Email = user.Email
+        };
+    }
+
     public static TodoItemDto ToDto(this TodoItem entity)
     {
         return new TodoItemDto
@@ -32,12 +42,14 @@ public static class TodoMappingExtensions
             Status = StatusToString(entity.Status),
             Priority = entity.Priority.ToString().ToLower(),
             Tags = entity.Tags,
+            Owner = entity.Owner?.ToDto(),
+            AssignedTo = entity.AssignedTo?.ToDto(),
             CreatedAt = entity.CreatedAt.ToUniversalTime().ToString("o"),
             UpdatedAt = entity.UpdatedAt.ToUniversalTime().ToString("o")
         };
     }
 
-    public static TodoItem ToEntity(this CreateTodoRequest request)
+    public static TodoItem ToEntity(this CreateTodoRequest request, Guid ownerUserId)
     {
         var now = DateTime.UtcNow;
         return new TodoItem
@@ -49,6 +61,8 @@ public static class TodoMappingExtensions
             Status = ParseStatus(request.Status),
             Priority = Enum.Parse<Priority>(request.Priority, ignoreCase: true),
             Tags = request.Tags,
+            OwnerUserId = ownerUserId,
+            AssignedToUserId = request.AssignedToUserId,
             CreatedAt = now,
             UpdatedAt = now
         };
@@ -62,6 +76,19 @@ public static class TodoMappingExtensions
         entity.Priority = Enum.Parse<Priority>(request.Priority, ignoreCase: true);
         entity.Status = ParseStatus(request.Status);
         entity.Tags = request.Tags;
+        entity.AssignedToUserId = request.AssignedToUserId;
         entity.UpdatedAt = DateTime.UtcNow;
+    }
+
+    public static TeamDto ToDto(this Team team)
+    {
+        return new TeamDto
+        {
+            Id = team.Id,
+            Name = team.Name,
+            Owner = team.Owner.ToDto(),
+            Members = team.Members.Select(m => m.User.ToDto()).ToList(),
+            CreatedAt = team.CreatedAt.ToUniversalTime().ToString("o")
+        };
     }
 }

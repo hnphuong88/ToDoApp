@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useMsal } from "@azure/msal-react";
 import { useTodo } from "../context/TodoContext";
 import "./Header.css";
 
 export default function Header() {
-  const { state, dispatch } = useTodo();
+  const { state } = useTodo();
+  const { instance } = useMsal();
   const navigate = useNavigate();
+  const location = useLocation();
+  const onDashboard = location.pathname === "/dashboard";
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>(
     "Notification" in window ? Notification.permission : "denied"
   );
@@ -17,8 +21,7 @@ export default function Header() {
   }, []);
 
   function handleLogout() {
-    dispatch({ type: "CLEAR_USER" });
-    navigate("/");
+    instance.logoutRedirect({ postLogoutRedirectUri: window.location.origin });
   }
 
   async function handleNotifClick() {
@@ -29,18 +32,38 @@ export default function Header() {
     }
   }
 
-  if (!state.user) return null;
+  const displayName = state.user?.displayName ?? "User";
 
   return (
     <header className="app-header">
       <div className="header-inner container">
         <div className="header-greeting">
-          <h2>Daily To-Do</h2>
-          <span className="greeting-text">
-            Hello, {state.user.firstName} {state.user.lastName}
-          </span>
+          <h2
+            className="header-title-link"
+            onClick={() => navigate("/dashboard")}
+            role="button"
+            tabIndex={0}
+          >
+            Daily To-Do
+          </h2>
+          <span className="greeting-text">Hello, {displayName}</span>
         </div>
         <div className="header-actions">
+          {onDashboard ? (
+            <button
+              className="btn btn-secondary header-nav-btn"
+              onClick={() => navigate("/teams")}
+            >
+              Teams
+            </button>
+          ) : (
+            <button
+              className="btn btn-secondary header-nav-btn"
+              onClick={() => navigate("/dashboard")}
+            >
+              Dashboard
+            </button>
+          )}
           <button
             className={`notif-bell ${notifPermission === "granted" ? "enabled" : ""}`}
             onClick={handleNotifClick}

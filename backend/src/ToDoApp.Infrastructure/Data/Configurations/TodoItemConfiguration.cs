@@ -48,6 +48,19 @@ public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
         builder.Property(t => t.Tags)
             .HasColumnType("nvarchar(max)");
 
+        builder.HasOne(t => t.Owner)
+            .WithMany()
+            .HasForeignKey(t => t.OwnerUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(t => t.AssignedTo)
+            .WithMany()
+            .HasForeignKey(t => t.AssignedToUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(t => t.OwnerUserId);
+        builder.HasIndex(t => t.AssignedToUserId);
+
         builder.Property(t => t.CreatedAt)
             .IsRequired();
 

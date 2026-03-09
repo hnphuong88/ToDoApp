@@ -8,6 +8,9 @@ public class TodoDbContext : DbContext
     public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options) { }
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+    public DbSet<AppUser> Users => Set<AppUser>();
+    public DbSet<Team> Teams => Set<Team>();
+    public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

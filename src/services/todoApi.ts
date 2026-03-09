@@ -1,6 +1,16 @@
 import type { TodoItem } from "../types";
+import { getAccessToken } from "../auth/getToken";
 
-const API_BASE = "http://localhost:5094/api/todos";
+const API_BASE =
+  (import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5094") + "/api/todos";
+
+async function authHeaders(): Promise<Record<string, string>> {
+  const token = await getAccessToken();
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+}
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -13,12 +23,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 export const todoApi = {
   async getAll(): Promise<TodoItem[]> {
-    const res = await fetch(API_BASE);
+    const headers = await authHeaders();
+    const res = await fetch(API_BASE, { headers });
     return handleResponse<TodoItem[]>(res);
   },
 
   async getById(id: string): Promise<TodoItem> {
-    const res = await fetch(`${API_BASE}/${id}`);
+    const headers = await authHeaders();
+    const res = await fetch(`${API_BASE}/${id}`, { headers });
     return handleResponse<TodoItem>(res);
   },
 
@@ -29,10 +41,12 @@ export const todoApi = {
     priority: string;
     status?: string;
     tags?: string[];
+    assignedToUserId?: string | null;
   }): Promise<TodoItem> {
+    const headers = await authHeaders();
     const res = await fetch(API_BASE, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(data),
     });
     return handleResponse<TodoItem>(res);
@@ -47,25 +61,32 @@ export const todoApi = {
       priority: string;
       status: string;
       tags: string[];
+      assignedToUserId?: string | null;
     }
   ): Promise<TodoItem> {
+    const headers = await authHeaders();
     const res = await fetch(`${API_BASE}/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(data),
     });
     return handleResponse<TodoItem>(res);
   },
 
   async delete(id: string): Promise<void> {
-    const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+    const headers = await authHeaders();
+    const res = await fetch(`${API_BASE}/${id}`, {
+      method: "DELETE",
+      headers,
+    });
     return handleResponse<void>(res);
   },
 
   async updateStatus(id: string, status: string): Promise<TodoItem> {
+    const headers = await authHeaders();
     const res = await fetch(`${API_BASE}/${id}/status`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ status }),
     });
     return handleResponse<TodoItem>(res);

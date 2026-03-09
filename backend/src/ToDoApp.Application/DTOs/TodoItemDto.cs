@@ -9,6 +9,8 @@ public class TodoItemDto
     public string Status { get; set; } = string.Empty;
     public string Priority { get; set; } = string.Empty;
     public List<string> Tags { get; set; } = new();
+    public AppUserDto? Owner { get; set; }
+    public AppUserDto? AssignedTo { get; set; }
     public string CreatedAt { get; set; } = string.Empty;
     public string UpdatedAt { get; set; } = string.Empty;
 }

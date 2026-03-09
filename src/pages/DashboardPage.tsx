@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTodo } from "../context/TodoContext";
 import Header from "../components/Header";
@@ -38,10 +38,6 @@ export default function DashboardPage() {
   const [selectedTag, setSelectedTag] = useState("");
 
   useDueNotifications(state.todos);
-
-  useEffect(() => {
-    fetchTodos();
-  }, [fetchTodos]);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -157,21 +153,26 @@ export default function DashboardPage() {
                   className="search-input"
                 />
               </div>
-              {allTags.length > 0 && (
-                <div className="tag-filter">
-                  <select
-                    value={selectedTag}
-                    onChange={(e) => setSelectedTag(e.target.value)}
-                    className="tag-select"
-                  >
-                    <option value="">All Tags</option>
-                    {allTags.map((tag) => (
-                      <option key={tag} value={tag}>{tag}</option>
-                    ))}
-                  </select>
-                </div>
-              )}
             </div>
+            {allTags.length > 0 && (
+              <div className="tag-pills-filter" style={{ marginBottom: "var(--spacing-md)" }}>
+                <button
+                  className={`tag-pill-btn ${selectedTag === "" ? "active" : ""}`}
+                  onClick={() => setSelectedTag("")}
+                >
+                  All
+                </button>
+                {allTags.map((tag) => (
+                  <button
+                    key={tag}
+                    className={`tag-pill-btn ${selectedTag === tag ? "active" : ""}`}
+                    onClick={() => setSelectedTag(selectedTag === tag ? "" : tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
           </>
         )}
 

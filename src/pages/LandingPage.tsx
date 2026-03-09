@@ -1,35 +1,26 @@
-import { useState, type FormEvent } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useTodo } from "../context/TodoContext";
+import { useNavigate } from "react-router-dom";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { useEffect } from "react";
+import { loginRequest } from "../auth/msalConfig";
 import "./LandingPage.css";
 
 export default function LandingPage() {
-  const { state, dispatch } = useTodo();
+  const { instance } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [errors, setErrors] = useState<{ firstName?: string; lastName?: string }>({});
 
-  if (state.user) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
-  function validate(): boolean {
-    const next: typeof errors = {};
-    if (!firstName.trim()) next.firstName = "First name is required";
-    if (!lastName.trim()) next.lastName = "Last name is required";
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  }
-
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    if (!validate()) return;
-    dispatch({
-      type: "SET_USER",
-      payload: { firstName: firstName.trim(), lastName: lastName.trim() },
-    });
-    navigate("/dashboard");
+  async function handleLogin() {
+    try {
+      await instance.loginRedirect(loginRequest);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   }
 
   return (
@@ -39,37 +30,16 @@ export default function LandingPage() {
         <p className="landing-tagline">
           Organize your day, one task at a time.
         </p>
-        <form className="landing-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              id="firstName"
-              type="text"
-              placeholder="Enter your first name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            {errors.firstName && (
-              <span className="field-error">{errors.firstName}</span>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              id="lastName"
-              type="text"
-              placeholder="Enter your last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            {errors.lastName && (
-              <span className="field-error">{errors.lastName}</span>
-            )}
-          </div>
-          <button type="submit" className="btn btn-primary landing-btn">
-            Get Started
-          </button>
-        </form>
+        <p className="landing-subtitle">
+          Sign in with your account to get started.
+        </p>
+        <button
+          type="button"
+          className="btn btn-primary landing-btn"
+          onClick={handleLogin}
+        >
+          Sign In / Sign Up
+        </button>
       </div>
     </div>
   );

@@ -13,9 +13,9 @@ public class TodoService : ITodoService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<TodoItemDto>> GetAllAsync()
+    public async Task<IEnumerable<TodoItemDto>> GetAllForUserAsync(Guid userId)
     {
-        var items = await _repository.GetAllAsync();
+        var items = await _repository.GetAllForUserAsync(userId);
         return items.Select(i => i.ToDto());
     }
 
@@ -25,9 +25,9 @@ public class TodoService : ITodoService
         return item?.ToDto();
     }
 
-    public async Task<TodoItemDto> CreateAsync(CreateTodoRequest request)
+    public async Task<TodoItemDto> CreateAsync(CreateTodoRequest request, Guid ownerUserId)
     {
-        var entity = request.ToEntity();
+        var entity = request.ToEntity(ownerUserId);
         var created = await _repository.AddAsync(entity);
         return created.ToDto();
     }

@@ -92,6 +92,15 @@
   color: var(--color-text-secondary);
 }
 
+.todo-card-assignee {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
 .todo-card-tags {
   display: flex;
   gap: 4px;

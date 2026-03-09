@@ -4,7 +4,7 @@ namespace ToDoApp.Application.Interfaces;
 
 public interface ITodoRepository
 {
-    Task<IEnumerable<TodoItem>> GetAllAsync();
+    Task<IEnumerable<TodoItem>> GetAllForUserAsync(Guid userId);
     Task<TodoItem?> GetByIdAsync(Guid id);
     Task<TodoItem> AddAsync(TodoItem item);
     Task<TodoItem> UpdateAsync(TodoItem item);

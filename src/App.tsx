@@ -1,13 +1,14 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useTodo } from "./context/TodoContext";
+import { useIsAuthenticated } from "@azure/msal-react";
 import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
 import TodoDetailPage from "./pages/TodoDetailPage";
 import TodoFormPage from "./pages/TodoFormPage";
+import TeamPage from "./pages/TeamPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { state } = useTodo();
-  if (!state.user) {
+  const isAuthenticated = useIsAuthenticated();
+  if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
   return <>{children}</>;
@@ -46,6 +47,14 @@ function App() {
         element={
           <ProtectedRoute>
             <TodoFormPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/teams"
+        element={
+          <ProtectedRoute>
+            <TeamPage />
           </ProtectedRoute>
         }
       />

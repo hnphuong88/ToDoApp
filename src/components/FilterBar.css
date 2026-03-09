@@ -75,12 +75,37 @@
   width: 100%;
 }
 
-.tag-filter {
-  min-width: 140px;
+.tag-pills-filter {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.tag-select {
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  width: 100%;
+.tag-pill-btn {
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: var(--font-body);
+}
+
+.tag-pill-btn:hover {
+  background: var(--color-border-light);
+  color: var(--color-text);
+}
+
+.tag-pill-btn.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.tag-pill-btn.active:hover {
+  opacity: 0.9;
 }

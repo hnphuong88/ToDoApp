@@ -22,4 +22,6 @@ public class UpdateTodoRequest
     public string Status { get; set; } = "todo";
 
     public List<string> Tags { get; set; } = new();
+
+    public Guid? AssignedToUserId { get; set; }
 }
